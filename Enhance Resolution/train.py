@@ -82,6 +82,11 @@ y_test = complete_path_Y[:200]
 my_training_batch_generator = Generator(X_train, y_train, batch_size)
 my_validation_batch_generator = Generator(X_test, y_test, batch_size)
 
+cp_callback = tf.keras.callbacks.ModelCheckpoint(
+    checkpoint_path, verbose=1, save_weights_only=True,
+    # Save weights, every 5-epochs.
+    period=5)
+
 # tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 
 model = create_model((128, 128, 3))
@@ -90,11 +95,14 @@ model.fit_generator(generator=my_training_batch_generator,
                     steps_per_epoch=(num_training_samples // batch_size) ,
                     epochs=num_epochs,
                     validation_data=my_validation_batch_generator,
-                    validation_steps=(num_validation_samples // batch_size))
+                    validation_steps=(num_validation_samples // batch_size),
+                    callbacks = [cp_callback],
+                    verbose=1)
                     # use_multiprocessing=True,
                     # workers=4,
                     # max_queue_size=32)
                     # callbacks=[tensorboard])
 
 
-model.save_weights(checkpoint_path.format(epoch=0))
+
+# model.save_weights(checkpoint_path.format(epoch=0))
