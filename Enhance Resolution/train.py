@@ -7,6 +7,7 @@ from tensorflow import keras
 from time import time
 # from keras.callbacks import TensorBoard
 
+
 class Generator(Sequence):
 
     def __init__(self, imageX_filenames, imageY_filenames, batch_size):
@@ -25,22 +26,23 @@ class Generator(Sequence):
 
 def create_model(input_shape):
     model = keras.Sequential([
-        keras.layers.UpSampling2D(size=(2, 2), data_format=None, interpolation='nearest'),
-        keras.layers.Conv2D(32, (3,3), input_shape=input_shape, activation=tf.nn.relu),
+        # keras.layers.InputLayer(input_shape=(input_shape)),
+        keras.layers.UpSampling2D(size=2, input_shape=input_shape, data_format=None, interpolation='nearest'),
+        keras.layers.Conv2D(32, (3,3), activation=tf.nn.relu, padding='same'),
         # keras.layers.MaxPooling2D(pool_size = (2, 2)),
 
-        keras.layers.Conv2D(64, (3, 3), activation = tf.nn.relu),
+        keras.layers.Conv2D(64, (3, 3), activation = tf.nn.relu, padding='same'),
         # keras.layers.MaxPooling2D(pool_size = (2, 2)),
 
-        keras.layers.Conv2D(32, (3, 3), activation = tf.nn.relu),
+        keras.layers.Conv2D(32, (3, 3), activation = tf.nn.relu, padding='same'),
 
-        keras.layers.Conv2D(32, (3, 3), activation = tf.nn.relu),
+        keras.layers.Conv2D(3, (3, 3), activation = tf.nn.relu, padding='same'),
         # keras.layers.MaxPooling2D(pool_size = (2, 2)),
 
         # keras.layers.Flatten(),
 
-        keras.layers.Dense(128, activation=tf.nn.relu),
-        keras.layers.Dense(64, activation=tf.nn.sigmoid)
+        # keras.layers.Dense(128, activation=tf.nn.relu),
+        # keras.layers.Dense(64, activation=tf.nn.sigmoid)
     ])
     
     model.compile(optimizer='adam', 

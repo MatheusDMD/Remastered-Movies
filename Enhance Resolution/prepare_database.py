@@ -6,6 +6,7 @@ NUMBER_OF_IMAGES = 70000
 PATH = './unlabeled2017'
 NEW_PATH_X = './dataset/x'
 NEW_PATH_Y = './dataset/y'
+NEW_PATH_Z = './dataset/z'
 
 index = 0
 images = os.listdir(PATH)
@@ -25,10 +26,14 @@ for image in images:
     if crop_img.shape != (256,256,3):
         print(crop_img.shape)
         continue
-
-    image_reduced = cv2.pyrDown(crop_img)
+    crop_gray = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+    crop_gray_reduced = cv2.pyrDown(crop_gray)
+    # image_reduced = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     path_x = os.path.join(NEW_PATH_X, f'{index}.jpg')
     path_y = os.path.join(NEW_PATH_Y, f'{index}.jpg')
-    print(path_x, path_y)
-    cv2.imwrite(path_x, image_reduced)
-    cv2.imwrite(path_y, crop_img)
+    path_z = os.path.join(NEW_PATH_Z, f'{index}.jpg')
+    print(path_x, path_y, path_z)
+    cv2.imwrite(path_x, crop_gray_reduced)
+    cv2.imwrite(path_y, crop_gray)
+    cv2.imwrite(path_z, crop_img)
+
