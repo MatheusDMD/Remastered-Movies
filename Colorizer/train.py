@@ -28,23 +28,19 @@ def create_model(input_shape):
     model = keras.Sequential([
 
         keras.layers.Conv2D(64, (3,3), input_shape=input_shape, activation=tf.nn.relu, padding='same'),
-
         keras.layers.Conv2D(64,(3, 3), activation = tf.nn.relu, padding='same'),
-
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
-
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
+        keras.layers.DropOut(0.5), #Thanos
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-
         keras.layers.Conv2D(512,(3, 3), activation = tf.nn.relu, padding='same'),        
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
+        keras.layers.DropOut(0.25), #Half-Thanos
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(64,(3, 3), activation = tf.nn.relu, padding='same'),
-
         keras.layers.Conv2D(32,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(3, (3, 3), activation = tf.nn.relu, padding='same'),
-
     ])
     
     model.compile(optimizer='adam', 
@@ -54,8 +50,8 @@ def create_model(input_shape):
     return model
 
 
-NEW_PATH_X = './dataset/y_small'
-NEW_PATH_Y = './dataset/z_small'
+NEW_PATH_X = './dataset/y'
+NEW_PATH_Y = './dataset/z'
 checkpoint_path = './model/'
 
 
