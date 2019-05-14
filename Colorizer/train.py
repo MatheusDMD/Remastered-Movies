@@ -32,11 +32,10 @@ def create_model(input_shape):
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Dropout(0.5), #Thanos
+        #keras.layers.Dropout(0.5), #Thanos
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Conv2D(512,(3, 3), activation = tf.nn.relu, padding='same'),        
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Dropout(0.25), #Half-Thanos
+        #keras.layers.Dropout(0.25), #Half-Thanos
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(64,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(32,(3, 3), activation = tf.nn.relu, padding='same'),
@@ -50,8 +49,8 @@ def create_model(input_shape):
     return model
 
 
-NEW_PATH_X = './dataset/y_small'
-NEW_PATH_Y = './dataset/z_small'
+NEW_PATH_X = '../dataset/y'
+NEW_PATH_Y = '../dataset/z'
 checkpoint_path = './model/'
 
 
@@ -62,15 +61,16 @@ paths_Y = os.listdir(NEW_PATH_Y)
 complete_path_X = [os.path.join(NEW_PATH_X, image_path) for image_path in paths_X]
 complete_path_Y = [os.path.join(NEW_PATH_Y, image_path) for image_path in paths_Y]
 
-num_training_samples = len(complete_path_X) - 64
+#num_training_samples = len(complete_path_X) - 950
+num_training_samples = 1024
 num_epochs = 2000
-num_validation_samples = 64
+num_validation_samples = 128
 
-X_train = complete_path_X[64:]
-X_test = complete_path_X[:64]
+X_train = complete_path_X[len(complete_path_X) - num_training_samples:len(complete_path_X)]
+X_test = complete_path_X[:128]
 
-y_train = complete_path_Y[64:]
-y_test = complete_path_Y[:64]
+y_train = complete_path_Y[len(complete_path_X) - num_training_samples:len(complete_path_X)]
+y_test = complete_path_Y[:128]
 
 # for image in y_test:
 #     print(image)
@@ -97,10 +97,7 @@ model.fit_generator(generator=my_training_batch_generator,
                     validation_data=my_validation_batch_generator,
                     validation_steps=(num_validation_samples // batch_size),
                     callbacks = [cp_callback],
-                    verbose=1,
-                    use_multiprocessing=True,
-                    workers=8,
-                    max_queue_size=32)
+                    verbose=1)
 
 
 
