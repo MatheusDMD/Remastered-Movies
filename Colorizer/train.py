@@ -32,11 +32,11 @@ def create_model(input_shape):
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.DropOut(0.5), #Thanos
+        keras.layers.Dropout(0.5), #Thanos
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(512,(3, 3), activation = tf.nn.relu, padding='same'),        
         keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.DropOut(0.25), #Half-Thanos
+        keras.layers.Dropout(0.25), #Half-Thanos
         keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(64,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(32,(3, 3), activation = tf.nn.relu, padding='same'),
@@ -50,8 +50,8 @@ def create_model(input_shape):
     return model
 
 
-NEW_PATH_X = './dataset/y'
-NEW_PATH_Y = './dataset/z'
+NEW_PATH_X = './dataset/y_small'
+NEW_PATH_Y = './dataset/z_small'
 checkpoint_path = './model/'
 
 
@@ -101,7 +101,6 @@ model.fit_generator(generator=my_training_batch_generator,
                     use_multiprocessing=True,
                     workers=8,
                     max_queue_size=32)
-                    # callbacks=[tensorboard])
 
 
 
