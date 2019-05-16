@@ -4,9 +4,13 @@ import os
 # CONSTANTS
 NUMBER_OF_IMAGES = 70000
 PATH = './unlabeled2017'
-NEW_PATH_X = './dataset/x'
-NEW_PATH_Y = './dataset/y'
-NEW_PATH_Z = './dataset/z'
+NEW_PATH_X = 'dataset/x'
+NEW_PATH_Y = 'dataset/y'
+NEW_PATH_Z = 'dataset/z'
+
+os.system(f'mkdir -p {NEW_PATH_X}')
+os.system(f'mkdir -p {NEW_PATH_Y}')
+os.system(f'mkdir -p {NEW_PATH_Z}')
 
 index = 0
 images = os.listdir(PATH)

@@ -26,32 +26,25 @@ class Generator(Sequence):
 
 def create_model(input_shape):
     model = keras.Sequential([
-
-        keras.layers.Conv2D(64, (3,3), input_shape=input_shape, activation=tf.nn.relu, padding='same'),
+        keras.layers.Conv2D(64, (3,3), input_shape=input_shape, activation=tf.nn.relu, padding='same', strides=2),
+        keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same',strides=2),
+        keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same',strides=2),
+        keras.layers.UpSampling2D(size=2),
+        keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
+        keras.layers.UpSampling2D(size=2),
         keras.layers.Conv2D(64,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        #keras.layers.Dropout(0.5), #Thanos
-        keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Conv2D(256,(3, 3), activation = tf.nn.relu, padding='same'),
-        #keras.layers.Dropout(0.25), #Half-Thanos
-        keras.layers.Conv2D(128,(3, 3), activation = tf.nn.relu, padding='same'),
-        keras.layers.Conv2D(64,(3, 3), activation = tf.nn.relu, padding='same'),
+        keras.layers.UpSampling2D(size=2),
         keras.layers.Conv2D(32,(3, 3), activation = tf.nn.relu, padding='same'),
         keras.layers.Conv2D(3, (3, 3), activation = tf.nn.relu, padding='same'),
     ])
     
-    model.compile(optimizer='adam', 
-              loss='mse',
-              metrics=['accuracy'])
-    
+    model.compile(optimizer='adam', loss='mse')
     return model
 
 
-NEW_PATH_X = '../dataset/y'
-NEW_PATH_Y = '../dataset/z'
-checkpoint_path = './model/'
+NEW_PATH_X = './dataset/y'
+NEW_PATH_Y = './dataset/z'
+checkpoint_path = './model3/'
 
 
 batch_size = 64
@@ -62,9 +55,9 @@ complete_path_X = [os.path.join(NEW_PATH_X, image_path) for image_path in paths_
 complete_path_Y = [os.path.join(NEW_PATH_Y, image_path) for image_path in paths_Y]
 
 #num_training_samples = len(complete_path_X) - 950
-num_training_samples = 1024
+num_training_samples = 256
 num_epochs = 2000
-num_validation_samples = 128
+num_validation_samples = 64
 
 X_train = complete_path_X[len(complete_path_X) - num_training_samples:len(complete_path_X)]
 X_test = complete_path_X[:128]
