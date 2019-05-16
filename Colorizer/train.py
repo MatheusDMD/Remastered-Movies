@@ -42,8 +42,8 @@ def create_model(input_shape):
     return model
 
 
-NEW_PATH_X = './dataset/y'
-NEW_PATH_Y = './dataset/z'
+NEW_PATH_X = '../dataset/y'
+NEW_PATH_Y = '../dataset/z'
 checkpoint_path = './model3/'
 
 
