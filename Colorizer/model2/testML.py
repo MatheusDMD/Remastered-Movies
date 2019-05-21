@@ -1,5 +1,0 @@
-latest = tf.train.latest_checkpoint(checkpoint_dir)
-model = create_model()
-model.load_weights(latest)
-loss, acc = model.evaluate(test_images, test_labels)
-print("Restored model, accuracy: {:5.2f}%".format(100*acc))
